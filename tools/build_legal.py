@@ -187,13 +187,13 @@ def md_to_html(md: str) -> str:
 
 CSS = """\
 /* 灿荣数字官网 · A2（Setrex 深色极简）
- * 令牌与主站 Terminal 主题同源（packages/ui/src/styles/theme.css），换算为 hex 以兼容老浏览器。
- * 纪律：页面不写内联色值；底色近纯黑、强调色荧光黄绿、大标题居中、面板圆角细边框。 */
+ * 底色/文字令牌与主站 Terminal 主题同源（hex 化以兼容老浏览器）；强调色取品牌橙 rgb(255,131,0)。
+ * 纪律：页面不写内联色值；底色近纯黑、强调色=品牌橙、大标题居中、面板圆角细边框。 */
 :root{
  --paper:#010101; --paper-2:#040404; --paper-3:#0B0B0B;
  --rule:#1F1F1F; --rule-2:#424242;
  --muted:#868686; --ink-2:#B7B7B7; --ink:#F8F8F8;
- --accent:#CBF62E; --accent-ink:#0B0F02;
+ --accent:#FF8300; --accent-ink:#17100A;
  --radius:18px; --pill:999px; --page:1180px;
  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
 }
@@ -246,16 +246,13 @@ h2.display span{display:block;color:var(--muted)}
 .stars{position:absolute;inset:0;background:url(assets/stars.svg) repeat;background-size:700px 700px;opacity:.55;z-index:1;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
 .planet{position:relative;height:48vh;min-height:340px;margin-top:-120px}
 .planet .glow,.planet .sphere,.planet .tex,.planet .shade,.planet .rim{position:absolute;left:50%;top:4%;width:min(1500px,178vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%}
-.planet .glow{top:-26%;width:min(1800px,205vw);background:radial-gradient(circle,rgba(203,246,46,.09) 0%,rgba(203,246,46,0) 58%);filter:blur(30px)}
+.planet .glow{top:-26%;width:min(1800px,205vw);background:radial-gradient(circle,rgba(255,131,0,.10) 0%,rgba(255,131,0,0) 58%);filter:blur(30px)}
 .planet .sphere{background:radial-gradient(circle at 63% 9%,#7E7E7E 0%,#5A5A5A 10%,#3A3A3A 24%,#202020 42%,#111111 62%,#080808 82%,#040404 100%);box-shadow:inset -90px -130px 220px rgba(0,0,0,.95)}
 .planet .tex{background:url(assets/planet-texture.svg);background-size:900px 900px;mix-blend-mode:overlay;opacity:.55}
 .planet .shade{background:radial-gradient(circle at 63% 9%,rgba(255,255,255,.16) 0%,rgba(255,255,255,.04) 14%,rgba(0,0,0,0) 34%,rgba(0,0,0,.35) 62%,rgba(0,0,0,.75) 84%,rgba(0,0,0,.9) 100%)}
-.planet .rim{background:radial-gradient(circle at 63% 9%,rgba(255,255,255,0) 61.6%,rgba(255,255,255,.30) 63.4%,rgba(203,246,46,.14) 64.4%,rgba(255,255,255,0) 66.5%);filter:blur(.6px)}
+.planet .rim{background:radial-gradient(circle at 63% 9%,rgba(255,255,255,0) 61.6%,rgba(255,255,255,.30) 63.4%,rgba(255,131,0,.16) 64.4%,rgba(255,255,255,0) 66.5%);filter:blur(.6px)}
 .planet:after{content:"";position:absolute;left:0;right:0;bottom:0;height:38%;background:linear-gradient(180deg,rgba(1,1,1,0),var(--paper));pointer-events:none}
 @media(max-width:820px){.planet{margin-top:-70px}}
-.planet .glow{top:-24%;width:min(1800px,205vw);background:radial-gradient(circle,rgba(203,246,46,.10) 0%,rgba(203,246,46,0) 60%);filter:blur(30px)}
-.planet .sphere{top:6%;width:min(1500px,178vw);background:radial-gradient(circle at 66% 16%,#EFEFEF 0%,#C6C6C6 8%,#8B8B8B 20%,#464646 38%,#1A1A1A 58%,#0A0A0A 78%,#050505 100%);box-shadow:inset -110px -140px 240px rgba(0,0,0,.95),0 0 90px 6px rgba(203,246,46,.05)}
-.planet .rim{top:6%;width:min(1500px,178vw);background:radial-gradient(circle at 66% 16%,rgba(255,255,255,.45) 0%,rgba(255,255,255,0) 24%);filter:blur(2px)}
 
 /* ── 卡片与面板 ── */
 .grid{display:grid;gap:16px}

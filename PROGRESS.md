@@ -24,13 +24,13 @@
 
 | 项 | 说明 |
 |---|---|
-| 令牌 | `--paper #010101` / `--paper-3 #0B0B0B`（面板）/ `--rule #1F1F1F`（细线）/ `--muted #868686` / `--ink #F8F8F8` / **`--accent #CBF62E`（荧光黄绿）** —— 与主站 Terminal 主题同源（`packages/ui/src/styles/theme.css` 的 oklch 值换算为 hex，兼容旧浏览器） |
+| 令牌 | `--paper #010101` / `--paper-3 #0B0B0B`（面板）/ `--rule #1F1F1F`（细线）/ `--muted #868686` / `--ink #F8F8F8` / **`--accent #FF8300`（品牌橙，取色自 `Canrong_LOGO001.png`）** · `--accent-ink #17100A` —— 底色/文字令牌与主站 Terminal 主题同源（oklch → hex，兼容旧浏览器） |
 | **CSS 唯一来源** | `tools/build_legal.py` 里的 `CSS` 常量 → 生成 `style.css`。**改样式改脚本，不要直接改 `style.css`**（下次生成会覆盖） |
-| 组件类 | `.page`（容器）/ `.section` / `.sec-head`·`.page-head`（居中页头）/ `.card`·`.panel` / `.grid cols-2/3/4` / `.info`（细线信息表）/ `.list` / `.btn`（`-primary` 黄绿胶囊 · `-ghost`）/ `.chip`·`.kicker`（小标签）/ `.article`（法律页排版）/ `.tabs`（法律页胶囊切换） |
+| 组件类 | `.page`（容器）/ `.section` / `.sec-head`·`.page-head`（居中页头）/ `.card`·`.panel` / `.grid cols-2/3/4` / `.info`（细线信息表）/ `.list` / `.btn`（`-primary` 橙色胶囊 · `-ghost`）/ `.chip`·`.kicker`（小标签）/ `.article`（法律页排版）/ `.tabs`（法律页胶囊切换） |
 | 排版 | 大标题 `clamp(2.4rem→4.5rem)`、字重 700、字距 -0.02em、次行 `--muted`；正文 15.5–16px；系统无衬线（PingFang SC / 微软雅黑 / Noto Sans SC），**不加载任何 web 字体** |
 | Hero 星球 | 纯 CSS 渐变 + SVG 纹理叠加（`sphere`/`tex`/`shade`/`rim`/`glow` 五层）+ 星点背景；无图片、无 3D、无 JS |
 | 品牌资产 | 页眉/页脚/图标用 `assets/logo.png`（白底圆角徽章 + 橙 C）与 `assets/icon.png` —— 与主站同一素材（媒体库 `folder=business` 的 `1a09b2dcfa9-35ceed90.png` / 源文件 `LOGO设计/Canrong LOGO/Canrong_LOGO002.png`）。**不得自制品牌标记** |
-| 纪律 | 页面**不写内联色值**；新页面复用现有类；不要引入外部图片/字体/CDN。强调色若要从 A2 荧光黄绿改为**品牌橙**（`rgb(255,131,0)`），只改 `CSS` 常量的 `--accent`/`--accent-ink` 两行 |
+| 纪律 | 页面**不写内联色值**；新页面复用现有类；不要引入外部图片/字体/CDN。强调色=品牌橙（`#FF8300`）；改色只动 `CSS` 常量的 `--accent`/`--accent-ink`（含星球 glow/rim 的橙色 tint） |
 
 ## 二、推送方式（唯一可用路径）
 
