@@ -186,30 +186,159 @@ def md_to_html(md: str) -> str:
 
 
 CSS = """\
-:root{--fg:#1a1a1a;--mut:#6b6b6b;--line:#e6e6e6;--bg:#fff}
+/* 灿荣数字官网 · A2（Setrex 深色极简）
+ * 令牌与主站 Terminal 主题同源（packages/ui/src/styles/theme.css），换算为 hex 以兼容老浏览器。
+ * 纪律：页面不写内联色值；底色近纯黑、强调色荧光黄绿、大标题居中、面板圆角细边框。 */
+:root{
+ --paper:#010101; --paper-2:#040404; --paper-3:#0B0B0B;
+ --rule:#1F1F1F; --rule-2:#424242;
+ --muted:#868686; --ink-2:#B7B7B7; --ink:#F8F8F8;
+ --accent:#CBF62E; --accent-ink:#0B0F02;
+ --radius:18px; --pill:999px; --page:1180px;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);
- font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:48px 22px 80px}
-header.site{border-bottom:1px solid var(--line);padding:18px 22px;display:flex;
- justify-content:space-between;align-items:center;max-width:760px;margin:0 auto}
-header.site a{color:var(--fg);text-decoration:none;font-weight:600}
-header.site nav a{margin-left:18px;font-weight:400;color:var(--mut);font-size:14px}
-h1{font-size:30px;line-height:1.35;margin:0 0 8px}
-h2{font-size:20px;margin:34px 0 10px;padding-top:6px}
-h3{font-size:17px;margin:24px 0 8px}
-p,li{color:#2b2b2b}
-blockquote{margin:18px 0;padding:12px 16px;background:#fafafa;border-left:3px solid #d8d8d8;color:#4a4a4a}
-table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14.5px}
-th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
-th{background:#fafafa;font-weight:600}
-code{background:#f4f4f4;padding:1px 5px;border-radius:4px;font-size:14px}
-hr{border:0;border-top:1px solid var(--line);margin:36px 0}
-footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--mut);font-size:13px}
-.muted{color:var(--mut)}
-.card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:22px 0}
-.hero{font-size:19px;color:#333;margin:10px 0 0}
-a{color:#0a58ca}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink-2);font:16px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--ink);text-decoration:none;transition:color .15s ease}
+a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.page{max-width:var(--page);margin:0 auto;padding:0 24px}
+
+/* ── 顶栏：三段式（品牌 · 导航 · 胶囊 CTA）── */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(1,1,1,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.site-header .page{display:flex;align-items:center;gap:22px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+.brand img{width:26px;height:26px}
+.nav{display:flex;gap:26px;margin-left:auto;font-size:14px}
+.nav a{color:var(--muted)}
+.nav a:hover,.nav a[aria-current="page"]{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 20px;border-radius:var(--pill);font-size:14px;font-weight:600;border:1px solid transparent;transition:.18s ease;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.07);color:var(--accent-ink)}
+.btn-ghost{border-color:var(--rule-2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn-text{font-size:14px;color:var(--ink);font-weight:600}
+
+/* ── 通用区块 ── */
+.section{padding:104px 0}
+.sec-head{text-align:center;max-width:820px;margin:0 auto 56px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:18px}
+.kicker i{width:6px;height:6px;border-radius:50%;background:var(--accent);font-style:normal}
+h1.display{margin:0;font-size:clamp(2.4rem,5vw + .8rem,4.5rem);line-height:1.07;letter-spacing:-.02em;font-weight:700;color:var(--ink)}
+h1.display span{display:block;color:var(--muted)}
+h2.display{margin:0;font-size:clamp(1.7rem,2.6vw + .9rem,2.85rem);line-height:1.14;letter-spacing:-.02em;font-weight:700;color:var(--ink)}
+h2.display span{display:block;color:var(--muted)}
+.lead{margin:22px auto 0;max-width:54ch;font-size:16px;color:var(--muted);line-height:1.78}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.rule{height:1px;background:var(--rule);border:0;margin:0}
+.page-head{text-align:center;max-width:960px;margin:0 auto}
+.page-head h1.display{font-size:clamp(1.95rem,3.4vw + .6rem,3.4rem)}
+.page-head .lead{margin-top:20px}
+
+/* ── Hero：居中大字 + 星球地平线（纯 CSS，无图片）── */
+.hero{position:relative;overflow:hidden;padding:132px 0 0}
+.hero .inner{position:relative;z-index:3;max-width:900px;margin:0 auto;padding:0 24px;text-align:center}
+.chip{display:inline-flex;align-items:center;gap:9px;height:34px;padding:0 15px;border:1px solid var(--rule);border-radius:var(--pill);background:rgba(11,11,11,.55);font-size:12.5px;color:var(--ink-2)}
+.chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);font-style:normal}
+.hero h1.display{margin-top:26px}
+.stars{position:absolute;inset:0;background:url(assets/stars.svg) repeat;background-size:700px 700px;opacity:.55;z-index:1;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.planet{position:relative;height:48vh;min-height:340px;margin-top:-120px}
+.planet .glow,.planet .sphere,.planet .tex,.planet .shade,.planet .rim{position:absolute;left:50%;top:4%;width:min(1500px,178vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%}
+.planet .glow{top:-26%;width:min(1800px,205vw);background:radial-gradient(circle,rgba(203,246,46,.09) 0%,rgba(203,246,46,0) 58%);filter:blur(30px)}
+.planet .sphere{background:radial-gradient(circle at 63% 9%,#7E7E7E 0%,#5A5A5A 10%,#3A3A3A 24%,#202020 42%,#111111 62%,#080808 82%,#040404 100%);box-shadow:inset -90px -130px 220px rgba(0,0,0,.95)}
+.planet .tex{background:url(assets/planet-texture.svg);background-size:900px 900px;mix-blend-mode:overlay;opacity:.55}
+.planet .shade{background:radial-gradient(circle at 63% 9%,rgba(255,255,255,.16) 0%,rgba(255,255,255,.04) 14%,rgba(0,0,0,0) 34%,rgba(0,0,0,.35) 62%,rgba(0,0,0,.75) 84%,rgba(0,0,0,.9) 100%)}
+.planet .rim{background:radial-gradient(circle at 63% 9%,rgba(255,255,255,0) 61.6%,rgba(255,255,255,.30) 63.4%,rgba(203,246,46,.14) 64.4%,rgba(255,255,255,0) 66.5%);filter:blur(.6px)}
+.planet:after{content:"";position:absolute;left:0;right:0;bottom:0;height:38%;background:linear-gradient(180deg,rgba(1,1,1,0),var(--paper));pointer-events:none}
+@media(max-width:820px){.planet{margin-top:-70px}}
+.planet .glow{top:-24%;width:min(1800px,205vw);background:radial-gradient(circle,rgba(203,246,46,.10) 0%,rgba(203,246,46,0) 60%);filter:blur(30px)}
+.planet .sphere{top:6%;width:min(1500px,178vw);background:radial-gradient(circle at 66% 16%,#EFEFEF 0%,#C6C6C6 8%,#8B8B8B 20%,#464646 38%,#1A1A1A 58%,#0A0A0A 78%,#050505 100%);box-shadow:inset -110px -140px 240px rgba(0,0,0,.95),0 0 90px 6px rgba(203,246,46,.05)}
+.planet .rim{top:6%;width:min(1500px,178vw);background:radial-gradient(circle at 66% 16%,rgba(255,255,255,.45) 0%,rgba(255,255,255,0) 24%);filter:blur(2px)}
+
+/* ── 卡片与面板 ── */
+.grid{display:grid;gap:16px}
+.cols-2{grid-template-columns:repeat(2,1fr)}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+.card,.panel,.cta-band{background:var(--paper-3);border:1px solid var(--rule);border-radius:var(--radius)}
+.card{padding:26px 24px;display:flex;flex-direction:column;gap:12px}
+.card:hover{border-color:var(--rule-2)}
+.card .icon{color:var(--accent)}
+.card h3{margin:0;font-size:17.5px;color:var(--ink);letter-spacing:-.01em;font-weight:600}
+.card p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.72}
+.card .foot{margin-top:auto;padding-top:16px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.card .foot em{font-style:normal;color:var(--ink-2)}
+.panel{padding:28px 26px}
+.panel h3{margin:0 0 6px;font-size:16px;color:var(--ink);font-weight:600}
+.panel p{margin:0;font-size:14.5px;color:var(--muted)}
+.panel .big{font-size:2.4rem;font-weight:700;color:var(--ink);letter-spacing:-.02em;display:block;line-height:1.1}
+
+/* ── 信息表（细线分隔，不用盒子）── */
+.info{width:100%;border-collapse:collapse;font-size:15px}
+.info th,.info td{padding:15px 4px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+.info th{width:34%;color:var(--muted);font-weight:400;font-size:13.5px;white-space:nowrap}
+.info td{color:var(--ink)}
+.info tr:last-child th,.info tr:last-child td{border-bottom:0}
+.info a{color:var(--accent)}
+
+/* ── 功能清单 ── */
+.list{margin:0;padding:0;list-style:none;display:grid;gap:18px}
+.list li{padding-left:22px;position:relative;color:var(--ink-2);font-size:15.5px;line-height:1.8}
+.list li:before{content:"";position:absolute;left:0;top:.72em;width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.list strong{color:var(--ink);font-weight:600}
+
+/* ── CTA 带 ── */
+.cta-band{padding:64px 34px;text-align:center;border-radius:26px}
+.cta-band .lead{margin-top:18px}
+
+/* ── 页脚 ── */
+.site-footer{margin-top:48px;border-top:1px solid var(--rule);padding:60px 0 44px}
+.site-footer .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+.site-footer nav{display:flex;gap:24px;flex-wrap:wrap;font-size:13.5px}
+.site-footer nav a{color:var(--muted)}
+.site-footer .legal{margin-top:34px;padding-top:24px;border-top:1px solid var(--rule);color:var(--muted);font-size:12.5px;line-height:2}
+.disclaimer{margin:18px 0 0;color:#5C5C5C;font-size:12px;line-height:1.85;max-width:84ch}
+
+/* ── 法律页（由脚本生成）── */
+.article{max-width:840px;margin:0 auto;padding:56px 24px 20px}
+.article h1{font-size:clamp(2rem,3vw + .8rem,3rem);line-height:1.14;letter-spacing:-.02em;font-weight:700;color:var(--ink);margin:0 0 14px}
+.article .meta{color:var(--muted);font-size:13.5px;margin:0 0 34px}
+.article h2{font-size:19.5px;color:var(--ink);font-weight:600;margin:52px 0 14px;padding-top:22px;border-top:1px solid var(--rule);letter-spacing:-.01em}
+.article h3{font-size:16.5px;color:var(--ink);font-weight:600;margin:30px 0 10px}
+.article p,.article li{color:var(--ink-2);font-size:15.5px;line-height:1.9}
+.article strong{color:var(--ink);font-weight:600}
+.article a{color:var(--accent)}
+.article ul,.article ol{padding-left:24px}
+.article blockquote{margin:22px 0;padding:14px 20px;border-left:2px solid var(--accent);background:var(--paper-3);border-radius:0 14px 14px 0;color:var(--ink-2)}
+.article code{background:var(--paper-3);border:1px solid var(--rule);padding:1px 6px;border-radius:6px;font-size:13.5px;color:var(--ink)}
+.article table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px}
+.article th,.article td{border:1px solid var(--rule);padding:10px 12px;text-align:left;vertical-align:top;color:var(--ink-2)}
+.article th{background:var(--paper-3);color:var(--ink);font-weight:600}
+.article hr{border:0;border-top:1px solid var(--rule);margin:42px 0}
+.article footer{margin-top:58px;padding-top:22px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px;line-height:2}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 34px}
+.tabs a{display:inline-flex;align-items:center;height:34px;padding:0 15px;border:1px solid var(--rule);border-radius:var(--pill);font-size:13px;color:var(--muted)}
+.tabs a:hover{border-color:var(--rule-2);color:var(--ink)}
+.tabs a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+
+/* ── 响应式 ── */
+@media(max-width:1000px){.cols-4{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:1fr}}
+@media(max-width:820px){
+ .site-header .page{gap:14px}
+ .nav{gap:16px;overflow-x:auto;font-size:13px;scrollbar-width:none}
+ .nav::-webkit-scrollbar{display:none}
+ .hero{padding-top:96px}
+ .planet{height:36vh}
+ .section{padding:78px 0}
+ .cta-band{padding:48px 22px}
+}
+@media(max-width:680px){
+ .cols-2,.cols-4{grid-template-columns:1fr}
+ .site-header .btn{padding:0 14px;height:38px}
+ .nav{display:none}   /* 窄屏收起顶栏导航（页脚保留全部链接），避免挤成两行 */
+}
 """
 
 
@@ -220,68 +349,58 @@ def page(title: str, body: str, nav: str) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)} · {COMPANY['product_zh']}</title>
+<meta name="theme-color" content="#010101">
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="site">
-  <a href="index.html">{COMPANY['product_zh']} {COMPANY['product_en']}</a>
-  <nav>{nav}</nav>
+<header class="site-header">
+  <div class="page">
+    <a class="brand" href="index.html" aria-label="{COMPANY['legal_zh']} 首页"><img src="assets/mark.svg" alt="" width="26" height="26">灿荣数字</a>
+    <nav class="nav">{nav}</nav>
+    <a class="btn btn-primary" href="contact.html">联系我们</a>
+  </div>
 </header>
-<main class="wrap">
 {body}
-</main>
+<footer class="site-footer">
+  <div class="page">
+    <div class="top">
+      <a class="brand" href="index.html"><img src="assets/mark.svg" alt="" width="26" height="26">灿荣数字</a>
+      <nav>
+        <a href="index.html">首页</a><a href="business.html">业务版图</a><a href="about.html">关于我们</a><a href="contact.html">联系我们</a><a href="privacy.html">隐私政策</a><a href="terms.html">用户协议</a><a href="minors.html">未成年人保护条款</a>
+      </nav>
+    </div>
+    <div class="legal">
+      © {date.today().year} {COMPANY['legal_zh']}　｜　{COMPANY['legal_en']}<br>
+      <span>ICP 备案：{COMPANY['icp']}</span>　｜　<span>公安联网备案：待办理</span>　｜　<span>官方网站：{COMPANY['domain']}</span>
+    </div>
+    <p class="disclaimer">本站所述产品与服务中涉及传统文化模型的内容（如命理、排盘、解读等）均基于算法生成，仅供娱乐与自我认知参考，不构成医疗、心理、投资或任何专业建议。</p>
+  </div>
+</footer>
 </body>
 </html>
 """
 
 
+NAV_ITEMS = [("index.html", "首页"), ("business.html", "业务版图"), ("about.html", "关于我们"),
+             ("contact.html", "联系我们"), ("privacy.html", "隐私政策"), ("terms.html", "用户协议"),
+             ("minors.html", "未成年人保护条款")]
+
+
 def nav_html(current: str) -> str:
-    items = [("index.html", "首页"), ("privacy.html", "隐私政策"),
-             ("terms.html", "用户协议"), ("minors.html", "未成年人保护")]
     parts = []
-    for href, label in items:
-        if href == current:
-            parts.append(f'<a href="{href}" style="font-weight:600;color:#1a1a1a">{label}</a>')
-        else:
-            parts.append(f'<a href="{href}">{label}</a>')
+    for href, label in NAV_ITEMS[:4]:
+        cur = ' aria-current="page"' if href == current else ""
+        parts.append(f'<a href="{href}"{cur}>{label}</a>')
     return "".join(parts)
 
 
-def index_html() -> str:
-    body = f"""<h1>{COMPANY['product_zh']} {COMPANY['product_en']}</h1>
-<p class="hero">以东方命理模型为底层算法、以现代产品形态呈现的<b>自我认知与关系匹配</b>应用。</p>
-
-<div class="card">
-  <h2 style="margin-top:0">我们做什么</h2>
-  <ul>
-    <li><b>认识自己</b>：基于四柱八字与紫微斗数的本地排盘，生成个人特质与阶段报告。</li>
-    <li><b>读懂关系</b>：以合盘模型给出两个人在性格、节奏、长期相处上的匹配分析。</li>
-    <li><b>隐私优先</b>：排盘在设备本地完成；用于匹配的仅为不可逆特征向量，不向第三方出售个人信息。</li>
-  </ul>
-</div>
-
-<h2>公司信息</h2>
-<table>
-  <tbody>
-    <tr><th>公司名称</th><td>{COMPANY['legal_zh']}</td></tr>
-    <tr><th>英文名称</th><td>{COMPANY['legal_en']}</td></tr>
-    <tr><th>注册地址</th><td>{COMPANY['address_zh']}</td></tr>
-    <tr><th>联系方式</th><td>{COMPANY['email']}</td></tr>
-    <tr><th>ICP 备案号</th><td>{COMPANY['icp']}</td></tr>
-  </tbody>
-</table>
-
-<h2>法律文件</h2>
-<ul>
-  <li><a href="privacy.html">隐私政策</a>（我们如何处理你的信息）</li>
-  <li><a href="terms.html">用户协议</a>（服务规则与免责说明）</li>
-  <li><a href="minors.html">未成年人保护条款</a></li>
-</ul>
-
-<footer>
-  © {date.today().year} {COMPANY['legal_zh']}　｜　本产品内容基于传统文化模型生成，仅供娱乐与自我认知参考，不构成任何专业建议。
-</footer>"""
-    return page("首页", body, nav_html("index.html"))
+def legal_tabs(current: str) -> str:
+    parts = []
+    for href, label in NAV_ITEMS[4:]:
+        cur = ' aria-current="page"' if href == current else ""
+        parts.append(f'<a href="{href}"{cur}>{label}</a>')
+    return '<nav class="tabs" aria-label="法律文件">' + "".join(parts) + "</nav>"
 
 
 def doc_html(title: str, md_path: pathlib.Path, current: str) -> str:
@@ -289,13 +408,16 @@ def doc_html(title: str, md_path: pathlib.Path, current: str) -> str:
     # 文档开头的「文档性质/编写基准/占位约定」等内部元信息不对外展示：剔除 H1 与其后的引用块
     md = re.sub(r"^#\s.*?\n(?:>.*\n)+", "", md, count=1, flags=re.M)
     md = demote_notes(md)
-    body = (f'<h1>{inline(title)}</h1>\n'
-            f'<p class="muted">更新日期：{COMPANY["updated"]}　｜　生效日期：{COMPANY["updated"]}</p>\n'
-            + md_to_html(md))
-    body += (f'<footer>本文件由 {COMPANY["legal_zh"]} 发布　｜　联系方式：{COMPANY["email"]}'
-             f'　｜　ICP 备案号：{COMPANY["icp"]}<br>'
-             f'© {date.today().year} {COMPANY["legal_zh"]}</footer>')
+    body = ('<article class="article">\n'
+            + legal_tabs(current)
+            + f'<h1>{inline(title)}</h1>\n'
+            + f'<p class="meta">更新日期：{COMPANY["updated"]}　｜　生效日期：{COMPANY["updated"]}</p>\n'
+            + md_to_html(md)
+            + f'<footer>本文件由 {COMPANY["legal_zh"]} 发布　｜　联系方式：{COMPANY["email"]}'
+              f'　｜　ICP 备案号：{COMPANY["icp"]}<br>'
+              f'© {date.today().year} {COMPANY["legal_zh"]}</footer>\n</article>')
     return page(title, body, nav_html(current))
+
 
 
 

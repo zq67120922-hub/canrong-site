@@ -3,7 +3,7 @@
 > 新会话请先读 `AGENTS.md`（纪律与文件地图）+ 本文件（进度与待办）。
 > 最近更新：2026-09-17 ｜ 负责人：pi（技术）· 主人（决策/账号）
 
-## 一、当前状态：**🎉 已上线**（`https://www.canrong.net`，7 页全部在线）
+## 一、当前状态：**🎉 已上线 + 全站 A2 深色重做完成**（`https://www.canrong.net`，7 页全部在线）
 
 | 项 | 状态 |
 |---|---|
@@ -19,6 +19,17 @@
 | 站点体积 | ✅ 7 页 ≈ 45 KB；整站（含 .git）≈ 340 KB |
 
 **用途**：①公司对外展示 ②**Apple 组织账号核查**（首页/关于/联系三页含公司全称、英文名、注册地址、联系方式）③ App Store 隐私政策 URL 承载页。
+
+## 一点五、视觉系统（A2 · 2026-09-17 重做）
+
+| 项 | 说明 |
+|---|---|
+| 令牌 | `--paper #010101` / `--paper-3 #0B0B0B`（面板）/ `--rule #1F1F1F`（细线）/ `--muted #868686` / `--ink #F8F8F8` / **`--accent #CBF62E`（荧光黄绿）** —— 与主站 Terminal 主题同源（`packages/ui/src/styles/theme.css` 的 oklch 值换算为 hex，兼容旧浏览器） |
+| **CSS 唯一来源** | `tools/build_legal.py` 里的 `CSS` 常量 → 生成 `style.css`。**改样式改脚本，不要直接改 `style.css`**（下次生成会覆盖） |
+| 组件类 | `.page`（容器）/ `.section` / `.sec-head`·`.page-head`（居中页头）/ `.card`·`.panel` / `.grid cols-2/3/4` / `.info`（细线信息表）/ `.list` / `.btn`（`-primary` 黄绿胶囊 · `-ghost`）/ `.chip`·`.kicker`（小标签）/ `.article`（法律页排版）/ `.tabs`（法律页胶囊切换） |
+| 排版 | 大标题 `clamp(2.4rem→4.5rem)`、字重 700、字距 -0.02em、次行 `--muted`；正文 15.5–16px；系统无衬线（PingFang SC / 微软雅黑 / Noto Sans SC），**不加载任何 web 字体** |
+| Hero 星球 | 纯 CSS 渐变 + SVG 纹理叠加（`sphere`/`tex`/`shade`/`rim`/`glow` 五层）+ 星点背景；无图片、无 3D、无 JS |
+| 纪律 | 页面**不写内联色值**；新页面复用现有类；不要引入外部图片/字体/CDN |
 
 ## 二、推送方式（唯一可用路径）
 

@@ -52,12 +52,19 @@ GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-to
 在 `IOS-TREP` 的 nginx 里启用 `www` server 段（`backend/deploy/nginx.conf` 已预留注释块），把本目录产物拷到服务器
 `scp -r company-site/{*.html,style.css,assets} deploy@<IP>:/home/deploy/trep/site-dist/`（compose 已挂载 `site/dist`，改成该目录即可）。
 
+## 二点五、视觉系统（A2 深色极简）
+
+- 令牌与组件类见 `PROGRESS.md` §一点五。要点：**纯黑底 + 荧光黄绿 `#CBF62E`**、居中大标题（次行转灰）、胶囊按钮、圆角细边框面板、星球地平线 Hero。
+- **样式单一来源**：`tools/build_legal.py` 的 `CSS` 常量（生成 `style.css`）。改配色/排版 → 改脚本 → `python3 tools/build_legal.py`。
+- 本地资源：`assets/mark.svg`（品牌标记）、`assets/stars.svg`（星点）、`assets/planet-texture.svg`（星球纹理）。**没有任何外部请求**（无 CDN、无 web 字体、无图片外链）。
+- 新增页面时：复制现有页的 `<header class="site-header">` / `<footer class="site-footer">` 两段，正文用 `.section` + `.page` + `.sec-head`/`.page-head` + `.card`/`.panel` 组合。
+
 ## 三、内容维护
 
 | 要改什么 | 改哪里 |
 |---|---|
 | 页面文案 | 直接改对应 `.html`（纯文本，无构建） |
-| 配色/排版 | `style.css` 顶部的 CSS 变量（`--accent` 等；该文件由生成器写出，改动请同步 `tools/build_legal.py` 里的 `CSS` 常量） |
+| 配色/排版 | **改 `tools/build_legal.py` 里的 `CSS` 常量**（`style.css` 是生成物；顶部 `:root` 即品牌令牌） |
 | 品牌标记 | `assets/mark.svg` |
 | 公司信息（名称/英文名/地址/邮箱/电话/域名） | `tools/build_legal.py` 顶部 `COMPANY`（法律页唯一事实源）+ 4 个营销页手工同步 |
 | **法律文本**（隐私政策/用户协议/未成年人条款） | **只改事实源** `IOS-TREP/docs/compliance/*` → 回本目录跑 `python3 tools/build_legal.py`（生成 3 个法律页 + 刷新 `TODO-content.md`） |

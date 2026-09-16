@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="灿荣数字">
-  <!-- 品牌标记：方形（整体）＋对角线（关系）＋留白（增量）——与「合」的理念同源 -->
-  <rect x="6" y="6" width="52" height="52" rx="6" fill="none" stroke="#F5B335" stroke-width="5"/>
-  <path d="M16 16 L16 48 L48 48 Z" fill="#F2693A"/>
-  <path d="M16 16 L48 16 L48 48 Z" fill="#A62B27"/>
-  <path d="M16 16 L48 48" stroke="#F5B335" stroke-width="5" stroke-linecap="round"/>
+  <!-- 品牌标记：方框（整体）＋对角线（关系）＋留白（增量）——与「合」的理念同源 -->
+  <rect x="7" y="7" width="50" height="50" rx="14" fill="#CBF62E"/>
+  <path d="M20 20 L20 44 L44 44 Z" fill="#0B0F02" opacity=".82"/>
+  <path d="M20 20 L44 20 L44 44 Z" fill="#0B0F02" opacity=".42"/>
 </svg>
