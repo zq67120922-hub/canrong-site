@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://www.canrong.net/sitemap.xml
+Sitemap: https://www.canrong.net/index.html
