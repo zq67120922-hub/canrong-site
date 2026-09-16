@@ -21,10 +21,18 @@ DNS（腾讯云 DNSPod → canrong.net，已完成）：
 
 ```bash
 cd "/Users/orz/Desktop/Company Website/company-site"
+bash tools/push.sh        # 自动读 ~/.pi-secrets/gh-token，自检并推送；失败会打印修法
+```
+
+<details><summary>等价的手工命令（脚本内部就是这条）</summary>
+
+```bash
 export GH_TOKEN=$(cat ~/.pi-secrets/gh-token)   # 600 权限，仓库外；不入库
 GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f' \
   -c http.proxy= -c https.proxy= push https://github.com/zq67120922-hub/canrong-site.git main:main
 ```
+
+</details>
 
 > - token 需要 **Contents: Read and write**（细粒度 token 的 Repository access 必须选 `Only select repositories`，否则权限区锁死为只读）。
 > - `-c http.proxy=` 用于绕过全局 Clash 代理（直连已验证可用）。

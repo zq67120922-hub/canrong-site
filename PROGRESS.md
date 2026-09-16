@@ -45,13 +45,11 @@
 mkdir -p ~/.pi-secrets && printf '%s' '粘贴新token' > ~/.pi-secrets/gh-token && chmod 600 ~/.pi-secrets/gh-token
 ```
 
-**推送命令**（不落盘任何凭据；token 从仓库外文件读取）：
+**推送命令**（`tools/push.sh` 就是这个；token 从仓库外文件读取，不落盘）：
 
 ```bash
 cd "/Users/orz/Desktop/Company Website/company-site"
-export GH_TOKEN=$(cat ~/.pi-secrets/gh-token)
-GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f' \
-  -c http.proxy= -c https.proxy= push https://github.com/zq67120922-hub/canrong-site.git main:main
+bash tools/push.sh     # 自检 + 推送；失败会打印 token 修法
 ```
 
 > `-c http.proxy=` 是必要的：全局 git 配了 Clash 代理（`127.0.0.1:7897`），直连 GitHub 已验证可用。

@@ -20,6 +20,7 @@
 | `privacy.html` / `terms.html` / `minors.html` | **法律页：由脚本生成，勿手改** |
 | `sitemap.xml` / `robots.txt` | 站点地图与爬虫规则（**脚本生成**；页面清单在 `build_legal.py` 的 `pages`） |
 | `tools/build_legal.py` | 法律页生成器：读 `IOS-TREP/docs/compliance/*` → 生成 3 个法律页 + `sitemap.xml` + `robots.txt` + `style.css` + 刷新 `TODO-content.md`；含**公开发布清理**（`FILL` 回填真值 / `demote_notes` 剥离内部备注 / `publish_clean` 剥内部编号与路径） |
+| `tools/push.sh` | 一键推送到 GitHub Pages（凭据从仓库外 `~/.pi-secrets/gh-token` 读取；失败时打印修法） |
 | `style.css` | 全站样式（顶部 CSS 变量即品牌色：`--accent` 深绛红 `--accent-2` 橘 `--gold`）；**由脚本写出**，改动请同步 `build_legal.py` 的 `CSS` 常量 |
 | `assets/mark.svg` | 品牌标记（方框＋对角线＋留白，呼应不等式「合」的理念） |
 | `CNAME` / `.nojekyll` | GitHub Pages 托管所需（`CNAME` = `www.canrong.net`） |
@@ -54,6 +55,9 @@ git status && git log --oneline | head  # 本站是独立 git 仓库（与 App �
 git remote -v                           # 推送目标：github.com/zq67120922-hub/canrong-site（当前 remote 是 SSH 形式，但推送走 HTTPS）
 
 # 推送（唯一可用路径；token 不入库、不打印）
+cd "/Users/orz/Desktop/Company Website/company-site" && bash tools/push.sh
+
+# 等价手工命令：
 export GH_TOKEN=$(cat ~/.pi-secrets/gh-token)
 GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f' \
   -c http.proxy= -c https.proxy= push https://github.com/zq67120922-hub/canrong-site.git main:main
