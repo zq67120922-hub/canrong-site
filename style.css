@@ -1,0 +1,120 @@
+/* 灿荣数字 · 官网静态站样式（2026-09-17）
+   设计语言：纸感底 + 墨色正文 + 细分隔线 + 红橙强调色（与品牌 LOGO 同源）
+   零依赖、零构建：直接托管即可（nginx / Cloudflare Pages / GitHub Pages） */
+
+:root{
+  --paper:#FAF8F5;
+  --paper-2:#FFFFFF;
+  --ink:#1A1A1A;
+  --muted:#6B6B6B;
+  --rule:#E5E0D8;
+  --rule-2:#D2CBC0;
+  --accent:#A62B27;      /* 深绛红（LOGO 主色） */
+  --accent-2:#F2693A;    /* 橘（LOGO 辅色） */
+  --gold:#F5B335;
+  --radius:14px;
+  --maxw:920px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:16px/1.8 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  font-feature-settings:"palt";
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto;display:block}
+
+/* ── 站点头部 ── */
+header.site{
+  position:sticky; top:0; z-index:20;
+  background:rgba(250,248,245,.92); backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+header.site .bar{
+  max-width:var(--maxw); margin:0 auto; padding:14px 22px;
+  display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+}
+.brand{display:flex; align-items:center; gap:10px; color:var(--ink); font-weight:600; letter-spacing:.01em}
+.brand:hover{text-decoration:none}
+.brand svg{width:26px;height:26px;flex:none}
+.brand .zh{font-size:17px}
+.brand .en{color:var(--muted); font-weight:500; font-size:12px; letter-spacing:.08em; text-transform:uppercase}
+header.site nav{display:flex; gap:20px; flex-wrap:wrap}
+header.site nav a{color:var(--muted); font-size:14.5px}
+header.site nav a:hover{color:var(--ink); text-decoration:none}
+header.site nav a[aria-current="page"]{color:var(--ink); font-weight:600}
+
+/* ── 布局 ── */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:56px 22px 72px}
+.hero{max-width:var(--maxw); margin:0 auto; padding:76px 22px 56px; text-align:center}
+.hero h1{
+  font-size:clamp(28px,4.4vw,44px); line-height:1.28; margin:0 0 14px;
+  letter-spacing:-.01em; font-weight:700;
+}
+.hero p.lead{font-size:clamp(16px,1.9vw,18.5px); color:var(--muted); max-width:38em; margin:0 auto}
+.hero .mark{width:64px;height:64px;margin:0 auto 22px}
+
+h1{font-size:clamp(24px,3.4vw,32px); line-height:1.35; margin:0 0 10px}
+h2{font-size:clamp(19px,2.2vw,22px); margin:44px 0 12px; letter-spacing:-.005em}
+h3{font-size:16.5px; margin:26px 0 8px}
+p,li{color:#2C2A28}
+.muted{color:var(--muted)}
+.rule{border:0;border-top:1px solid var(--rule);margin:44px 0}
+
+/* ── 卡片/网格 ── */
+.grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{
+  background:var(--paper-2); border:1px solid var(--rule); border-radius:var(--radius);
+  padding:20px 22px;
+}
+.card h3{margin-top:0}
+.card p{margin:6px 0 0; color:var(--muted); font-size:14.8px; line-height:1.75}
+.tag{
+  display:inline-block; font-size:12px; color:var(--muted);
+  border:1px solid var(--rule); border-radius:999px; padding:2px 10px; margin-top:12px;
+}
+.tag.live{color:var(--accent); border-color:var(--accent)}
+
+/* ── 表格（公司信息 / 合规文档） ── */
+table{border-collapse:collapse; width:100%; margin:18px 0; font-size:14.6px}
+th,td{border:1px solid var(--rule); padding:10px 12px; text-align:left; vertical-align:top}
+th{background:#F6F3EE; font-weight:600; width:34%}
+
+/* ── 引用/代码/列表（合规文档复用） ── */
+blockquote{
+  margin:18px 0; padding:12px 16px; background:#F6F3EE;
+  border-left:3px solid var(--rule-2); color:#4A4643;
+}
+code{background:#F1EDE8; padding:1px 5px; border-radius:4px; font-size:14px}
+ul,ol{padding-left:1.35em}
+li{margin:4px 0}
+
+/* ── 页脚 ── */
+footer.site{
+  border-top:1px solid var(--rule); background:var(--paper);
+}
+footer.site .inner{
+  max-width:var(--maxw); margin:0 auto; padding:34px 22px 46px;
+  color:var(--muted); font-size:13.5px; line-height:1.9;
+}
+footer.site a{color:var(--muted)}
+footer.site .links{display:flex; gap:18px; flex-wrap:wrap; margin-bottom:14px}
+footer.site .legal{color:#8A857E}
+footer.site .disclaimer{margin-top:12px; color:#8A857E}
+
+/* ── 法律文档页（privacy/terms/minors 专用，保持与营销页同一视觉） ── */
+.doc h1{margin-bottom:6px}
+.doc .meta{color:var(--muted); font-size:13.5px; margin:0 0 26px}
+.doc h2{border-top:1px solid var(--rule); padding-top:22px}
+
+@media (max-width:640px){
+  .hero{padding:52px 20px 40px}
+  .wrap{padding:40px 20px 60px}
+  th{width:auto}
+  header.site .bar{padding:12px 18px}
+  header.site nav{gap:14px}
+  header.site nav a{font-size:14px}
+}
