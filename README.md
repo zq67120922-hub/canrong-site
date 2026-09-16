@@ -70,6 +70,7 @@ GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-to
 | **业务/公司文案**（口号、简介、使命愿景价值观、四条业务线描述） | 取自 App 事实源 `apps/api/prisma/seed.ts`（`COMPANY_INTRO`/`mission`/`vision`/`values`/各线 `tagline`·`summary`·`features`·`process`）与 `docs/04-公司简介文案（初稿）.md` —— **先读事实源再改，不要自创表述** |
 | 公司信息（名称/英文名/地址/邮箱/电话/域名） | `tools/build_legal.py` 顶部 `COMPANY`（法律页唯一事实源）+ 4 个营销页手工同步 |
 | **法律文本**（隐私政策/用户协议/未成年人条款） | **只改事实源** `IOS-TREP/docs/compliance/*` → 回本目录跑 `python3 tools/build_legal.py`（生成 3 个法律页 + 刷新 `TODO-content.md`） |
+| **业务线落地页**（`trep` / `skinid` / `soundus` / `health`） | 结构各自固定（Almanac / Atelier / Manifesto / Coral，见 `AGENTS.md` 纪律 1）；改内容从 App 事实源取原文，**不要改结构语言**（换结构＝换一条线的性格） |
 | 新增页面 | 记得同步 `tools/build_legal.py` 的 `pages` 列表（决定 `sitemap.xml`）与各页导航 |
 
 **法律页生成器的清理规则**（改内容前先懂它，否则会误伤）：

@@ -9,7 +9,8 @@
 |---|---|
 | 线上地址 | ✅ **https://www.canrong.net/**（HTTP 自动 301 到 HTTPS；裸域 `canrong.net` → 301 → `https://www.canrong.net/`） |
 | 证书 | ✅ Let's Encrypt，`CN=www.canrong.net`，SAN 含 `canrong.net`（2026-09-17 签发，有效期至 2026-12-15），`Enforce HTTPS` 已开启 |
-| 7 个页面 | ✅ 全部 HTTPS 200：`index` / `business` / `about` / `contact` / `privacy` / `terms` / `minors` |
+| 页面 | ✅ 11 页：`index` / `business` / `about` / `contact` / **`trep` / `skinid` / `soundus` / `health`（业务线落地页）** / `privacy` / `terms` / `minors` |
+| 业务线落地页 | ✅ 每条线一种 macrostructure（Hallmark 结构指纹，抽掉颜色四页仍互不相同）：TREP=**Almanac 编号阶段**、skinID=**Atelier 双联画**、soundus=**Manifesto 通栏色块**、health=**Coral 窄栏长文**；各带自己的图形母题（星盘/分子/声波/数据环，静态细线 SVG，无动画） |
 | 附件与资源 | ✅ 全部 200：`sitemap.xml` / `robots.txt` / `style.css` / `assets/mark.svg` |
 | 公开发布清理 | ✅ 内部痕迹 0 命中（内部说明块 / 附录 / 任务卡号 / 复审号 / `docs/` 路径 / "主人" / 占位符 / 「（暂不适用）」） |
 | 法律页占位策略 | ✅ 「真值回填 + 内部备注整条剥离」：联系方式（邮箱/电话）、备案状态、处理者信息、免责声明择一 已落地；其余 31 项为需公司/法务给真值的项（`TODO-content.md`） |
@@ -26,6 +27,7 @@
 |---|---|
 | 令牌 | `--paper #010101` / `--paper-3 #0B0B0B`（面板）/ `--rule #1F1F1F`（细线）/ `--muted #868686` / `--ink #F8F8F8` / **`--accent #FF8300`（品牌橙，取色自 `Canrong_LOGO001.png`）** · `--accent-ink #17100A` —— 底色/文字令牌与主站 Terminal 主题同源（oklch → hex，兼容旧浏览器） |
 | **CSS 唯一来源** | `tools/build_legal.py` 里的 `CSS` 常量 → 生成 `style.css`。**改样式改脚本，不要直接改 `style.css`**（下次生成会覆盖） |
+| 结构类（业务线页） | `.stages/.stage/.trio/.steps`（Almanac）· `.split/.plain-list`（Atelier）· `.manifesto/.manifesto-body/.btn-huge/.band/.wave-band`（Manifesto）· `.doc`（Coral）· `.line-tabs`（四条线互链）· `.motif`（图形母题） |
 | 组件类 | `.page`（容器）/ `.section` / `.sec-head`·`.page-head`（居中页头）/ `.card`·`.panel` / `.grid cols-2/3/4` / `.info`（细线信息表）/ `.list` / `.btn`（`-primary` 橙色胶囊 · `-ghost`）/ `.chip`·`.kicker`（小标签）/ `.article`（法律页排版）/ `.tabs`（法律页胶囊切换） |
 | 排版 | 大标题 `clamp(2.4rem→4.5rem)`、字重 700、字距 -0.02em、次行 `--muted`；正文 15.5–16px；系统无衬线（PingFang SC / 微软雅黑 / Noto Sans SC），**不加载任何 web 字体** |
 | Hero 星球 | 纯 CSS 渐变 + SVG 纹理叠加（`sphere`/`tex`/`shade`/`rim`/`glow` 五层）+ 星点背景；无图片、无 3D、无 JS |
