@@ -2,51 +2,67 @@
 
 - 页面：`index` 首页 · `business` 业务 · `about` 关于我们 · `contact` 联系我们 · `privacy` 隐私政策 · `terms` 用户协议 · `minors` 未成年人保护条款
 - 技术：纯 HTML + 单个 `style.css` + 一个 SVG 标记。**无框架、无构建、无后端、无数据库**（零成本、零攻击面、零内存占用）
-- 体量：整站 < 30 KB
+- 体量：7 页 ≈ 45 KB
+- 附加产物：`sitemap.xml`（7 页）· `robots.txt`（指向 sitemap）· `tools/build_legal.py`（法律页生成器）
 
 ## 一、部署到 GitHub Pages（备案通过前的临时托管）
 
+仓库：`github.com/zq67120922-hub/canrong-site`（**必须 public**：免费账号 Pages 只支持公开仓库）。
+Pages 设置（已完成）：Source = `Deploy from a branch` / `main` / `(root)`；Custom domain = `www.canrong.net`；**Enforce HTTPS 已勾选**。
+
+DNS（腾讯云 DNSPod → canrong.net，已完成）：
+
+| 主机记录 | 类型 | 记录值 |
+|---|---|---|
+| `www` | CNAME | `zq67120922-hub.github.io` |
+| `@`（可选） | A | 185.199.108.153 / .109.153 / .110.153 / .111.153 |
+
+**推送（本机唯一可用路径：HTTPS + 仓库外的 token 文件）**
+
 ```bash
-# 1) 在本目录初始化并推送（仓库名建议 canrong-site，**必须是 public**：免费账号的 Pages 只支持公开仓库）
-cd "Company Website/company-site"
-git init && git add -A && git commit -m "site: 灿荣数字官网静态站（7 页）"
-git branch -M main
-git remote add origin git@github.com:<你的GitHub用户名>/canrong-site.git
-git push -u origin main
-
-# 2) GitHub → 仓库 Settings → Pages：
-#    Source: Deploy from a branch → Branch: main / (root) → Save
-#    几分钟后可访问 https://<用户名>.github.io/canrong-site/
-
-# 3) 绑定自定义域名（本目录已含 CNAME 文件，内容 www.canrong.net）：
-#    Settings → Pages → Custom domain 填 www.canrong.net → Save → 勾选 Enforce HTTPS
-
-# 4) 域名解析（腾讯云 DNSPod → canrong.net → 添加记录）：
-#    主机记录 www    记录类型 CNAME    记录值 <你的GitHub用户名>.github.io
-#    （如需裸域 canrong.net 也能访问：4 条 A 记录 → 185.199.108.153 / .109.153 / .110.153 / .111.153）
+cd "/Users/orz/Desktop/Company Website/company-site"
+export GH_TOKEN=$(cat ~/.pi-secrets/gh-token)   # 600 权限，仓库外；不入库
+GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-token; echo password=$GH_TOKEN; }; f' \
+  -c http.proxy= -c https.proxy= push https://github.com/zq67120922-hub/canrong-site.git main:main
 ```
 
-> HTTP-01 证书由 GitHub 自动签发（10 分钟–24 小时）；`Enforce HTTPS` 生效后，`https://www.canrong.net` 即可用。
-> **Apple 组织账号核查**只要求"网站可打开、内容与公司主体一致"——本站在首页/关于页/联系我们页均含公司全称、英文名、地址、联系方式，满足核查。
+> - token 需要 **Contents: Read and write**（细粒度 token 的 Repository access 必须选 `Only select repositories`，否则权限区锁死为只读）。
+> - `-c http.proxy=` 用于绕过全局 Clash 代理（直连已验证可用）。
+> - 本机 SSH 无密钥、keychain 里的旧 GitHub 凭据已失效 —— 不要再用 `git push`（SSH 形式）。
+
+> HTTP-01 证书由 GitHub 自动签发（10 分钟–24 小时）；`Enforce HTTPS` 生效后 `https://www.canrong.net` 即可用。
+> **Apple 组织账号核查**只要求"网站可打开、内容与公司主体一致"——首页/关于/联系我们三页均含公司全称、英文名、注册地址、联系方式，满足核查。
 
 ## 二、备案通过后迁到自有服务器（可选，国内访问更快）
 
-在 `IOS-TREP` 的 nginx 里启用 `www` server 段（`backend/deploy/nginx.conf` 已预留注释块），把本目录拷到服务器：
-`scp -r company-site/* deploy@<IP>:/home/deploy/trep/site-dist/`（compose 已挂载 `site/dist`，改成该目录即可）。
+在 `IOS-TREP` 的 nginx 里启用 `www` server 段（`backend/deploy/nginx.conf` 已预留注释块），把本目录产物拷到服务器
+`scp -r company-site/{*.html,style.css,assets} deploy@<IP>:/home/deploy/trep/site-dist/`（compose 已挂载 `site/dist`，改成该目录即可）。
 
 ## 三、内容维护
 
 | 要改什么 | 改哪里 |
 |---|---|
 | 页面文案 | 直接改对应 `.html`（纯文本，无构建） |
-| 配色/排版 | `style.css` 顶部的 CSS 变量（`--accent` 等） |
+| 配色/排版 | `style.css` 顶部的 CSS 变量（`--accent` 等；该文件由生成器写出，改动请同步 `tools/build_legal.py` 里的 `CSS` 常量） |
 | 品牌标记 | `assets/mark.svg` |
-| 法律文本（隐私政策/用户协议/未成年人条款） | **改 `IOS-TREP/docs/compliance/*` → 重跑 `python3 IOS-TREP/site/build.py` → 用产物覆盖本站三个法律页**（保持 App 内与官网同源，避免两处不一致被审核提问） |
-| 公司信息 | 三处保持一致：本目录首页/关于/联系页 · `IOS-TREP/docs/104` A1.5 · ASC 与 ICP 备案信息 |
+| 公司信息（名称/英文名/地址/邮箱/电话/域名） | `tools/build_legal.py` 顶部 `COMPANY`（法律页唯一事实源）+ 4 个营销页手工同步 |
+| **法律文本**（隐私政策/用户协议/未成年人条款） | **只改事实源** `IOS-TREP/docs/compliance/*` → 回本目录跑 `python3 tools/build_legal.py`（生成 3 个法律页 + 刷新 `TODO-content.md`） |
+| 新增页面 | 记得同步 `tools/build_legal.py` 的 `pages` 列表（决定 `sitemap.xml`）与各页导航 |
+
+**法律页生成器的清理规则**（改内容前先懂它，否则会误伤）：
+
+1. `FILL`：能由公司信息唯一确定的值 → 回填真值（公司全称/注册地/**邮箱与电话**/备案状态/定稿日期）。
+2. `demote_notes`：内部备注型占位 → 整条剥离（不留「（暂不适用）」这类毛糙标记）；只摘占位本体时保留句子与承诺句（如"15 个工作日内答复"）。
+3. `publish_clean`：剥离内部编号（`E1..E7`/`D-xx`/`T-Px-x`/`Rxx Px`/`S-x`）、`docs/` 路径、"主人"称谓、附录节、空括号与悬挂标点。
+4. 改完**必须**：跑生成 → 人工 diff 复核 → 痕迹扫描（`占位` / `暂不适用` / `豁免` / `E\d` / `D-\d\d` / `docs/` / 空括号 / 空单元格）。
+5. `python3 tools/build_legal.py --check` 只报告、**不写文件**（可安全用于自查）。
 
 ## 四、待定稿清单
 
-见 `TODO-content.md`（由合规草案的占位项导出，共 16 项）。当前已回填：联系方式（1966982298@qq.com / 18126733826）、境内云服务商（腾讯云）。
+见 `TODO-content.md`（**31 项**，由合规草案占位项自动导出；都是需要公司/法务给真值的条目，例如：UGC 内容安全规则、跨境传输口径、数据留存期限、短信/云服务商名称、订阅档位核对、账号注销时限）。
+
+已由脚本回填的真值：处理者名称与注册地 · 联系方式（`1966982298@qq.com` / `18126733826`，工作日 10:00–18:00）· 备案状态（审核中 / 待办理）· 定稿与生效日期 · 免责声明（与《用户协议》正文一致的版本）。
+> ⚠️ **尚未定稿**：境内云服务商名称（表格里现为「—」）—— 事实源里还是占位，**没有**"腾讯云"这一说法（早期 README 曾误记，已更正）。
 
 ## 五、备案号回填（**法定义务，备案通过后必须做**）
 
@@ -56,4 +72,4 @@ git push -u origin main
 <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备xxxxxxxx号-X</a>
 ```
 
-（公安联网备案号同样在办理后回填。）
+（公安联网备案号同样在办理后回填；3 个法律页的页脚文案在 `tools/build_legal.py` 的 `COMPANY['icp']`。）

@@ -343,7 +343,8 @@ def publish_clean(html_text: str) -> tuple[str, list[str]]:
 def main() -> int:
     check_only = "--check" in sys.argv
     SITE.mkdir(parents=True, exist_ok=True)
-    (SITE / "style.css").write_text(CSS, encoding="utf-8")
+    if not check_only:
+        (SITE / "style.css").write_text(CSS, encoding="utf-8")
     # 注意：index/business/about/contact 四页为手工维护的营销页，本脚本只生成三个法律页（privacy/terms/minors）
 
     remaining: list[tuple[str, str]] = []
@@ -358,7 +359,8 @@ def main() -> int:
         if "--raw" not in sys.argv:
             html_out, todos = publish_clean(html_out)
             for t in todos: remaining.append((title, "[占位：" + t + "]"))
-        (SITE / name).write_text(html_out, encoding="utf-8")
+        if not check_only:
+            (SITE / name).write_text(html_out, encoding="utf-8")
 
     # ── 站点地图 + robots（页面清单在此维护，新增页面记得同步）──
     pages = ["index.html", "business.html", "about.html", "contact.html",
@@ -368,14 +370,15 @@ def main() -> int:
         f'<changefreq>monthly</changefreq></url>'
         for p in pages
     )
-    (SITE / "sitemap.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f'{urls}\n</urlset>\n', encoding="utf-8")
-    (SITE / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\nSitemap: https://{COMPANY['domain']}/sitemap.xml\n", encoding="utf-8")
+    if not check_only:
+        (SITE / "sitemap.xml").write_text(
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            f'{urls}\n</urlset>\n', encoding="utf-8")
+        (SITE / "robots.txt").write_text(
+            f"User-agent: *\nAllow: /\nSitemap: https://{COMPANY['domain']}/sitemap.xml\n", encoding="utf-8")
 
-    print(f"✅ 已生成 → {SITE}")
+    print(f"✅ {'检查完成（未写文件）' if check_only else '已生成'} → {SITE}")
     for f in sorted(SITE.glob('*.html')):
         print(f"   {f.name:16s} {f.stat().st_size:>7,} B")
 
@@ -386,8 +389,10 @@ def main() -> int:
         for title, ph in remaining:
             if ph in seen0: continue
             seen0.add(ph); lines.append(f"- [{title}] {ph}")
-        (SITE / "TODO-content.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-        print(f"\n⚠️ 仍有 {len(remaining)} 处 [占位：…] 待公司/法务回填（已写入 TODO-content.md，去重后）：")
+        if not check_only:
+            (SITE / "TODO-content.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        where = "未写文件" if check_only else "已写入 TODO-content.md，去重后"
+        print(f"\n⚠️ 仍有 {len(remaining)} 处 [占位：…] 待公司/法务回填（{where}）：")
         seen = set()
         for title, ph in remaining:
             key = re.sub(r"[0-9A-Za-z/、+]+", "", ph)
