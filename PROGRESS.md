@@ -29,7 +29,8 @@
 | 组件类 | `.page`（容器）/ `.section` / `.sec-head`·`.page-head`（居中页头）/ `.card`·`.panel` / `.grid cols-2/3/4` / `.info`（细线信息表）/ `.list` / `.btn`（`-primary` 黄绿胶囊 · `-ghost`）/ `.chip`·`.kicker`（小标签）/ `.article`（法律页排版）/ `.tabs`（法律页胶囊切换） |
 | 排版 | 大标题 `clamp(2.4rem→4.5rem)`、字重 700、字距 -0.02em、次行 `--muted`；正文 15.5–16px；系统无衬线（PingFang SC / 微软雅黑 / Noto Sans SC），**不加载任何 web 字体** |
 | Hero 星球 | 纯 CSS 渐变 + SVG 纹理叠加（`sphere`/`tex`/`shade`/`rim`/`glow` 五层）+ 星点背景；无图片、无 3D、无 JS |
-| 纪律 | 页面**不写内联色值**；新页面复用现有类；不要引入外部图片/字体/CDN |
+| 品牌资产 | 页眉/页脚/图标用 `assets/logo.png`（白底圆角徽章 + 橙 C）与 `assets/icon.png` —— 与主站同一素材（媒体库 `folder=business` 的 `1a09b2dcfa9-35ceed90.png` / 源文件 `LOGO设计/Canrong LOGO/Canrong_LOGO002.png`）。**不得自制品牌标记** |
+| 纪律 | 页面**不写内联色值**；新页面复用现有类；不要引入外部图片/字体/CDN。强调色若要从 A2 荧光黄绿改为**品牌橙**（`rgb(255,131,0)`），只改 `CSS` 常量的 `--accent`/`--accent-ink` 两行 |
 
 ## 二、推送方式（唯一可用路径）
 

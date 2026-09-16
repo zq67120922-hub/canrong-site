@@ -56,7 +56,8 @@ GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-to
 
 - 令牌与组件类见 `PROGRESS.md` §一点五。要点：**纯黑底 + 荧光黄绿 `#CBF62E`**、居中大标题（次行转灰）、胶囊按钮、圆角细边框面板、星球地平线 Hero。
 - **样式单一来源**：`tools/build_legal.py` 的 `CSS` 常量（生成 `style.css`）。改配色/排版 → 改脚本 → `python3 tools/build_legal.py`。
-- 本地资源：`assets/mark.svg`（品牌标记）、`assets/stars.svg`（星点）、`assets/planet-texture.svg`（星球纹理）。**没有任何外部请求**（无 CDN、无 web 字体、无图片外链）。
+- 本地资源：`assets/logo.png` + `assets/icon.png`（**真公司徽章/图标**，与主站同一素材）、`assets/stars.svg`（星点）、`assets/planet-texture.svg`（星球纹理）。**没有任何外部请求**（无 CDN、无 web 字体、无图片外链）。
+- ⚠️ 品牌标记**不要自制**：徽章来自 `~/Desktop/个人专用/LOGO设计/Canrong LOGO/Canrong_LOGO002.png`（= 主站媒体库的公司 logo），换 logo 请从素材重新导出并同步更换。
 - 新增页面时：复制现有页的 `<header class="site-header">` / `<footer class="site-footer">` 两段，正文用 `.section` + `.page` + `.sec-head`/`.page-head` + `.card`/`.panel` 组合。
 
 ## 三、内容维护

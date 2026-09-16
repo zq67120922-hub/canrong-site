@@ -22,7 +22,8 @@
 | `tools/build_legal.py` | 法律页生成器：读 `IOS-TREP/docs/compliance/*` → 生成 3 个法律页 + `sitemap.xml` + `robots.txt` + `style.css` + 刷新 `TODO-content.md`；含**公开发布清理**（`FILL` 回填真值 / `demote_notes` 剥离内部备注 / `publish_clean` 剥内部编号与路径） |
 | `tools/push.sh` | 一键推送到 GitHub Pages（凭据从仓库外 `~/.pi-secrets/gh-token` 读取；失败时打印修法） |
 | `style.css` | 全站样式（顶部 CSS 变量即品牌色：`--accent` 深绛红 `--accent-2` 橘 `--gold`）；**由脚本写出**，改动请同步 `build_legal.py` 的 `CSS` 常量 |
-| `assets/mark.svg` | 品牌标记（黄绿方块 + 对角线留白，呼应不等式「合」的理念） |
+| `assets/logo.png` | **公司徽章（真品牌资产）**：白底圆角方块 + 橙色 C —— 与主站页眉 `site_settings.company.logo_url`（媒体库 `folder=business` 的 `1a09b2dcfa9-35ceed90.png`，源文件 `~/Desktop/个人专用/LOGO设计/Canrong LOGO/Canrong_LOGO002.png`）**同一素材**，仅缩放为 96² |
+| `assets/icon.png` | 浏览器标签页图标（同源 256²，与主站 `apps/web/src/app/icon.png` 一致） |
 | `assets/stars.svg` | Hero 星点背景（确定性生成的静态 SVG，无外部请求） |
 | `assets/planet-texture.svg` | Hero 星球岩石纹理（叠加在 CSS 球体上） |
 | `CNAME` / `.nojekyll` | GitHub Pages 托管所需（`CNAME` = `www.canrong.net`） |
@@ -33,6 +34,7 @@
 ## 2. 硬纪律
 
 1. **视觉只改一处**：全站样式（A2 深色极简：纯黑底 + 荧光黄绿 `#CBF62E` + 居中大标题 + 胶囊按钮 + 圆角细边框面板）由 `tools/build_legal.py` 的 `CSS` 常量生成 `style.css`。**不要手改 `style.css`**，也不要写内联色值；新页面复用 `.page/.section/.sec-head/.page-head/.card/.panel/.grid/.info/.list/.btn` 等既有类；**禁止引入外部图片 / web 字体 / CDN**（Hero 星球是纯 CSS + 本地 SVG 纹理）。
+   ⚠️ **品牌资产必须用真素材**：页眉/页脚/图标一律用 `assets/logo.png` 与 `assets/icon.png`（真公司徽章，见文件地图），**不得自制/替换品牌标记**（2026-09-17 曾用自造黄绿方块标记被用户指出，已纠正）。若要把强调色改成品牌橙（取自 `Canrong_LOGO001.png` 的 `rgb(255,131,0)`），只需改 `CSS` 常量里的 `--accent` / `--accent-ink` 两行。
 2. **法律页只改事实源**：要改隐私政策/用户协议/未成年人条款 → 改 `IOS-TREP/docs/compliance/*` → 回本目录跑 `python3 tools/build_legal.py`。**不要直接改生成出来的 HTML / sitemap / robots**（下次生成会覆盖）。新增页面记得同步脚本里的 `pages` 列表。
 3. **占位处理的两条铁律**（2026-09-17 定稿，勿回退）：
    - 能由公司信息唯一确定的值 → 必须在 `FILL` 里**回填真值**（公司全称/注册地/邮箱电话/备案状态/定稿日期）；

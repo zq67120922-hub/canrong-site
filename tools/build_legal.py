@@ -210,7 +210,7 @@ a:hover{color:var(--accent)}
 .site-header{position:sticky;top:0;z-index:50;background:rgba(1,1,1,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
 .site-header .page{display:flex;align-items:center;gap:22px;height:68px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);font-size:17px;letter-spacing:-.01em;white-space:nowrap}
-.brand img{width:26px;height:26px}
+.brand img{width:28px;height:28px;border-radius:8px}
 .nav{display:flex;gap:26px;margin-left:auto;font-size:14px}
 .nav a{color:var(--muted)}
 .nav a:hover,.nav a[aria-current="page"]{color:var(--ink)}
@@ -350,13 +350,13 @@ def page(title: str, body: str, nav: str) -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)} · {COMPANY['product_zh']}</title>
 <meta name="theme-color" content="#010101">
-<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="site-header">
   <div class="page">
-    <a class="brand" href="index.html" aria-label="{COMPANY['legal_zh']} 首页"><img src="assets/mark.svg" alt="" width="26" height="26">灿荣数字</a>
+    <a class="brand" href="index.html" aria-label="{COMPANY['legal_zh']} 首页"><img src="assets/logo.png" alt="" width="28" height="28">灿荣数字</a>
     <nav class="nav">{nav}</nav>
     <a class="btn btn-primary" href="contact.html">联系我们</a>
   </div>
@@ -365,7 +365,7 @@ def page(title: str, body: str, nav: str) -> str:
 <footer class="site-footer">
   <div class="page">
     <div class="top">
-      <a class="brand" href="index.html"><img src="assets/mark.svg" alt="" width="26" height="26">灿荣数字</a>
+      <a class="brand" href="index.html"><img src="assets/logo.png" alt="" width="28" height="28">灿荣数字</a>
       <nav>
         <a href="index.html">首页</a><a href="business.html">业务版图</a><a href="about.html">关于我们</a><a href="contact.html">联系我们</a><a href="privacy.html">隐私政策</a><a href="terms.html">用户协议</a><a href="minors.html">未成年人保护条款</a>
       </nav>
