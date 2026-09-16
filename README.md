@@ -5,10 +5,12 @@
 - 体量：7 页 ≈ 45 KB
 - 附加产物：`sitemap.xml`（7 页）· `robots.txt`（指向 sitemap）· `tools/build_legal.py`（法律页生成器）
 
-## 一、部署到 GitHub Pages（备案通过前的临时托管）
+## 一、部署到 GitHub Pages（当前生产托管）
+
+**状态：已上线 → https://www.canrong.net/**（HTTP 自动 301 到 HTTPS；Let's Encrypt 证书含 `canrong.net` + `www.canrong.net`）
 
 仓库：`github.com/zq67120922-hub/canrong-site`（**必须 public**：免费账号 Pages 只支持公开仓库）。
-Pages 设置（已完成）：Source = `Deploy from a branch` / `main` / `(root)`；Custom domain = `www.canrong.net`；**Enforce HTTPS 已勾选**。
+Pages 设置：Source = `Deploy from a branch` / `main` / `(root)`；Custom domain = `www.canrong.net`；**Enforce HTTPS 已勾选**。
 
 DNS（腾讯云 DNSPod → canrong.net，已完成）：
 
@@ -22,8 +24,11 @@ DNS（腾讯云 DNSPod → canrong.net，已完成）：
 ```bash
 cd "/Users/orz/Desktop/Company Website/company-site"
 bash tools/set-token.sh   # 首次/换 token：静默输入写入仓库外凭据（不回显、不进聊天记录）
-bash tools/push.sh        # 推送（自动读凭据；失败会打印修法）
+bash tools/push.sh        # 自动选路（直连不通走本机代理）→ 预取远端 → 推送
 ```
+
+> - **GitHub 会自己提交**（改 Pages 设置时产生 `Create/Delete/Update CNAME`）→ `push.sh` 已自动预取；若报分叉，先 `git merge origin/main`（CNAME 冲突时**先看文件里有没有 `<<<<<<<` 标记**再 `git add`）。
+> - **git 主机 `github.com` 直连常超时**（`api.github.com` 仍通）→ 脚本直连不通会自动改走本机代理（`PROXY_URL`，默认 `127.0.0.1:7897`）。
 
 <details><summary>等价的手工命令（脚本内部就是这条）</summary>
 

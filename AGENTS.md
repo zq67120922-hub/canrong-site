@@ -42,7 +42,10 @@
 6. **官网资产不放进 App 仓库**（主人 2026-09-17 明确要求）；App 侧只在 `backend/deploy/nginx.conf` 保留"如何托管本静态站"的注释与 `backend/site-dist/` 部署约定。
 7. **密钥/账号零入库**：本站无任何密钥；GitHub 仓库必须 **public**（免费账号 Pages 仅支持公开仓库）。
    推送凭据放在**仓库外**：`~/.pi-secrets/gh-token`（600 权限）。**SSH 与 macOS keychain 的旧凭据在本机均不可用**，不要用 `git push`（SSH）。
-   token 需要 **Contents: Read and write**（细粒度 token 的 Repository access 必须选 `Only select repositories`，否则权限区锁死为只读）；若要改 Pages 设置则额外需要 `Pages: Read and write`。
+   token 需要 **经典 `repo`** 或细粒度 **Contents: Read and write**（细粒度 token 的 Repository access 必须选 `Only select repositories`，否则权限区锁死为只读）。
+8. **GitHub 会自动往本仓库提交**（改 Pages 自定义域 → `Create/Delete CNAME`；域名/证书同步 → `Update CNAME`）：推送前先 `git fetch`（`tools/push.sh` 已自动做）；解冲突时**先确认文件里没有 `<<<<<<<` 标记**再 `git add`（本轮曾把冲突标记提交进 `CNAME`，靠 GitHub 自动纠正，不可依赖）。
+9. **`github.com` 直连在国内常超时**（`api.github.com` 仍通）：`tools/push.sh` 会探测并自动改走本机代理（`PROXY_URL`，默认 `http://127.0.0.1:7897`），也可 `GIT_TRANSPORT=direct|proxy` 强制。
+10. **Pages API 设自定义域不要同时带 `https_enforced`**（会报 `The certificate does not exist yet`）：先 `PUT {"cname":"..."}`（204）→ 等证书 `approved`。
 
 ## 3. 常用命令
 
@@ -67,7 +70,8 @@ GIT_TERMINAL_PROMPT=0 git -c credential.helper='!f() { echo username=x-access-to
 
 ## 4. 待办（详细见 PROGRESS.md）
 
-- [ ] **开 token 写权限 → 推送 → 验证线上 7 页与 HTTPS 证书**（唯一阻塞：当前 token 只能读，`PUT /contents` 返回 403）
+- [x] ~~推送并验证线上~~ → **2026-09-17 已上线**：`https://www.canrong.net`（7 页 + sitemap/robots 严格 HTTPS 全部 200，证书 `approved`）
+- [ ] 撤销本轮使用的 GitHub token（凭据仅在仓库外 `~/.pi-secrets/gh-token`）
 - [ ] 备案通过后：回填 ICP 备案号（7 页页脚）+ 迁移到自有服务器
 - [ ] 内容定稿：`TODO-content.md` 中 31 项真值（UGC 规则、跨境口径、留存期限、云服务商/短信服务商名称等）由公司/法务确认
 - [ ] 品牌改名后同步：`tools/build_legal.py` 的 `COMPANY['product_zh']` + 营销页产品名
