@@ -36,7 +36,7 @@ COMPANY = {
     "domain": "www.canrong.net",
     "product_zh": "萃谱",          # 产品名（更名待定 → 改名后重跑本脚本即可）
     "product_en": "TREP",
-    "icp": "审核中（备案通过后回填）",
+    "icp": "审核中",
     "email": "1966982298@qq.com",   # 2026-09-17 主人确认
     "tel": "18126733826",
     "updated": date.today().isoformat(),
@@ -297,7 +297,20 @@ def main() -> int:
             for t in todos: remaining.append((title, "[占位：" + t + "]"))
         (SITE / name).write_text(html_out, encoding="utf-8")
 
-    (SITE / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: https://{COMPANY['domain']}/index.html\n", encoding="utf-8")
+    # ── 站点地图 + robots（页面清单在此维护，新增页面记得同步）──
+    pages = ["index.html", "business.html", "about.html", "contact.html",
+             "privacy.html", "terms.html", "minors.html"]
+    urls = "\n".join(
+        f'  <url><loc>https://{COMPANY["domain"]}/{p}</loc>'
+        f'<changefreq>monthly</changefreq></url>'
+        for p in pages
+    )
+    (SITE / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f'{urls}\n</urlset>\n', encoding="utf-8")
+    (SITE / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: https://{COMPANY['domain']}/sitemap.xml\n", encoding="utf-8")
 
     print(f"✅ 已生成 → {SITE}")
     for f in sorted(SITE.glob('*.html')):
