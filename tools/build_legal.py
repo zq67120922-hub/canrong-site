@@ -17,6 +17,7 @@ canrong.net 极简静态站生成器（2026-09-17）
     site/dist/style.css      极简样式（无外部依赖，可直接托管）
 """
 from __future__ import annotations
+import hashlib
 import html
 import json
 import pathlib
@@ -338,6 +339,9 @@ h2.display span{display:block;color:var(--muted)}
 }
 """
 
+# 资源版本号 = style.css 内容哈希（前 8 位）：每次改样式都会换版本号，绕开 GitHub Pages 的 10 分钟缓存
+ASSET_V = hashlib.sha1(CSS.encode("utf-8")).hexdigest()[:8]
+
 
 def page(title: str, body: str, nav: str) -> str:
     return f"""<!doctype html>
@@ -347,13 +351,13 @@ def page(title: str, body: str, nav: str) -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)} · {COMPANY['product_zh']}</title>
 <meta name="theme-color" content="#010101">
-<link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
-<link rel="stylesheet" href="style.css">
+<link rel="icon" href="assets/icon.png?v={ASSET_V}" type="image/png" sizes="256x256">
+<link rel="stylesheet" href="style.css?v={ASSET_V}">
 </head>
 <body>
 <header class="site-header">
   <div class="page">
-    <a class="brand" href="index.html" aria-label="{COMPANY['legal_zh']} 首页"><img src="assets/logo.png" alt="" width="28" height="28">灿荣数字</a>
+    <a class="brand" href="index.html" aria-label="{COMPANY['legal_zh']} 首页"><img src="assets/logo.png?v={ASSET_V}" alt="" width="28" height="28">灿荣数字</a>
     <nav class="nav">{nav}</nav>
     <a class="btn btn-primary" href="contact.html">联系我们</a>
   </div>
@@ -362,7 +366,7 @@ def page(title: str, body: str, nav: str) -> str:
 <footer class="site-footer">
   <div class="page">
     <div class="top">
-      <a class="brand" href="index.html"><img src="assets/logo.png" alt="" width="28" height="28">灿荣数字</a>
+      <a class="brand" href="index.html"><img src="assets/logo.png?v={ASSET_V}" alt="" width="28" height="28">灿荣数字</a>
       <nav>
         <a href="index.html">首页</a><a href="business.html">业务版图</a><a href="about.html">关于我们</a><a href="contact.html">联系我们</a><a href="privacy.html">隐私政策</a><a href="terms.html">用户协议</a><a href="minors.html">未成年人保护条款</a>
       </nav>
@@ -496,6 +500,15 @@ def main() -> int:
             f'{urls}\n</urlset>\n', encoding="utf-8")
         (SITE / "robots.txt").write_text(
             f"User-agent: *\nAllow: /\nSitemap: https://{COMPANY['domain']}/sitemap.xml\n", encoding="utf-8")
+
+    # 资源版本号同步到全部页面（含手工维护的营销页）：只改查询串，不动其它内容
+    if not check_only:
+        for f in sorted(SITE.glob("*.html")):
+            t0 = f.read_text(encoding="utf-8")
+            t1 = re.sub(r"(style\.css)(\?v=[0-9a-f]+)?", rf"\1?v={ASSET_V}", t0)
+            t1 = re.sub(r"(assets/(?:logo|icon)\.png)(\?v=[0-9a-f]+)?", rf"\1?v={ASSET_V}", t1)
+            if t1 != t0:
+                f.write_text(t1, encoding="utf-8")
 
     print(f"✅ {'检查完成（未写文件）' if check_only else '已生成'} → {SITE}")
     for f in sorted(SITE.glob('*.html')):
