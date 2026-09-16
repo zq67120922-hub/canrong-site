@@ -29,7 +29,9 @@
 | **CSS 唯一来源** | `tools/build_legal.py` 里的 `CSS` 常量 → 生成 `style.css`。**改样式改脚本，不要直接改 `style.css`**（下次生成会覆盖） |
 | 结构类（业务线页） | `.stages/.stage/.trio/.steps`（Almanac）· `.split/.plain-list`（Atelier）· `.manifesto/.manifesto-body/.btn-huge/.band/.wave-band`（Manifesto）· `.doc`（Coral）· `.line-tabs`（四条线互链）· `.motif`（图形母题） |
 | 组件类 | `.page`（容器）/ `.section` / `.sec-head`·`.page-head`（居中页头）/ `.card`·`.panel` / `.grid cols-2/3/4` / `.info`（细线信息表）/ `.list` / `.btn`（`-primary` 橙色胶囊 · `-ghost`）/ `.chip`·`.kicker`（小标签）/ `.article`（法律页排版）/ `.tabs`（法律页胶囊切换） |
-| 排版 | 大标题 `clamp(2.4rem→4.5rem)`、字重 700、字距 -0.02em、次行 `--muted`；正文 15.5–16px；系统无衬线（PingFang SC / 微软雅黑 / Noto Sans SC），**不加载任何 web 字体** |
+| 版式语言 | **v3 左对齐编辑式**（2026-09-17 按 Hallmark 重做）：细分隔线 + 非对称栏宽（7:5 / 4:8 / 1.15:0.85）+ 不均匀间距 + 悬挂编号；**取消全站居中、卡片墙与眉标**；除首页 Hero 外不居中 |
+| 排版 | 三族为上限：正文系统无衬线 · **显示用中文衬线**（章节/页标题、`.pull`）· **等宽**（编号/日期/微标，仅两个角色）；字号按 1.333 比例（`--t-xs…--t-3xl`）；行宽 ≈600px（37 汉字）；**不加载任何 web 字体** |
+| 间距 | 4pt 刻度九档（`--s-3xs…--s-3xl`），同页混用大小档，不再处处等距 |
 | Hero 星球 | 纯 CSS 渐变 + SVG 纹理叠加（`sphere`/`tex`/`shade`/`rim`/`glow` 五层）+ 星点背景；无图片、无 3D、无 JS |
 | 品牌资产 | 页眉/页脚/图标用 `assets/logo.png`（白底圆角徽章 + 橙 C）与 `assets/icon.png` —— 与主站同一素材（媒体库 `folder=business` 的 `1a09b2dcfa9-35ceed90.png` / 源文件 `LOGO设计/Canrong LOGO/Canrong_LOGO002.png`）。**不得自制品牌标记** |
 | 纪律 | 页面**不写内联色值**；新页面复用现有类；不要引入外部图片/字体/CDN。强调色=品牌橙（`#FF8300`）；改色只动 `CSS` 常量的 `--accent`/`--accent-ink`（含星球 glow/rim 的橙色 tint） |
