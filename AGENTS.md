@@ -55,7 +55,9 @@ git status && git log --oneline | head  # 本站是独立 git 仓库（与 App �
 git remote -v                           # 推送目标：github.com/zq67120922-hub/canrong-site（当前 remote 是 SSH 形式，但推送走 HTTPS）
 
 # 推送（唯一可用路径；token 不入库、不打印）
-cd "/Users/orz/Desktop/Company Website/company-site" && bash tools/push.sh
+cd "/Users/orz/Desktop/Company Website/company-site"
+bash tools/set-token.sh   # 首次/换 token：静默输入写入仓库外凭据（不回显）
+bash tools/push.sh        # 推送（失败会打印修法）
 
 # 等价手工命令：
 export GH_TOKEN=$(cat ~/.pi-secrets/gh-token)

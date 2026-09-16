@@ -21,7 +21,8 @@ DNS（腾讯云 DNSPod → canrong.net，已完成）：
 
 ```bash
 cd "/Users/orz/Desktop/Company Website/company-site"
-bash tools/push.sh        # 自动读 ~/.pi-secrets/gh-token，自检并推送；失败会打印修法
+bash tools/set-token.sh   # 首次/换 token：静默输入写入仓库外凭据（不回显、不进聊天记录）
+bash tools/push.sh        # 推送（自动读凭据；失败会打印修法）
 ```
 
 <details><summary>等价的手工命令（脚本内部就是这条）</summary>
