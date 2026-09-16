@@ -372,8 +372,9 @@ def page(title: str, body: str, nav: str) -> str:
       </nav>
     </div>
     <div class="legal">
-      © {date.today().year} {COMPANY['legal_zh']}　｜　{COMPANY['legal_en']}<br>
-      <span>ICP 备案：{COMPANY['icp']}</span>　｜　<span>公安联网备案：待办理</span>　｜　<span>官方网站：{COMPANY['domain']}</span>
+      © {date.today().year} {COMPANY['legal_zh']}　保留所有权利<br>
+      {COMPANY['legal_en']}　｜　官方网站：{COMPANY['domain']}<br>
+      <span>ICP 备案：{COMPANY['icp']}</span>　｜　<span>公安联网备案：待办理</span>
     </div>
     <p class="disclaimer">本站所述产品与服务中涉及传统文化模型的内容（如命理、排盘、解读等）均基于算法生成，仅供娱乐与自我认知参考，不构成医疗、心理、投资或任何专业建议。</p>
   </div>
